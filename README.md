@@ -1,2 +1,2 @@
-# AWS
-My journey into AWS security with real-world projects.
+# GoogleCloud
+My journey into Cloud with real-world projects.
