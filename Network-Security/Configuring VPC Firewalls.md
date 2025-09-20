@@ -1,6 +1,6 @@
 # Configuring VPC Firewalls
 
-## 🧠 Objective
+### Objective
 
 This lab explores **Virtual Private Cloud (VPC)** networks in Google Cloud and demonstrates how to create and manage **firewall rules** to control traffic to and from VM instances.
 
@@ -15,7 +15,7 @@ By completing this lab, you will learn how to:
 
 ---
 
-## 🧱 What is a VPC?
+### 🧱 What is a VPC?
 
 A **Virtual Private Cloud (VPC)** is a **virtual network** in Google Cloud that provides **IP address space**, **subnetworks**, **routing**, and **firewall rules** to control communication between your cloud resources.
 
@@ -23,7 +23,7 @@ Think of a VPC as your **own private data center in the cloud**, where you can d
 
 ---
 
-## 🔐 What are Firewall Rules in Google Cloud?
+### 🔐 What are Firewall Rules in Google Cloud?
 
 Firewall rules act like **security gates** for your VPC networks. They define:
 
@@ -36,13 +36,13 @@ Firewall rules act like **security gates** for your VPC networks. They define:
 
 ---
 
-# 🧪 LAB BREAKDOWN
+### LAB BREAKDOWN
 
 ---
 
-## ✅ Task 1: Create VPC Networks and Instances
+### Task 1: Create VPC Networks and Instances
 
-### What You Do:
+#### What You Do:
 
 You create:
 
@@ -50,7 +50,7 @@ You create:
 - A **custom-mode VPC** called `privatenet` with a subnet
 - Several **VM instances** in each network to test firewall behavior
 
-### 🧾 Commands Used:
+#### Commands Used:
 
 #### Create an auto-mode VPC:
 
@@ -120,9 +120,9 @@ gcloud compute instances create privatenet-vm-1 \
 
 ---
 
-## 🔍 Task 2: Investigate the Default Network
+### Task 2: Investigate the Default Network
 
-### Key Points:
+#### Key Points:
 
 - The **default network** comes with **predefined firewall rules**, such as:
   - `default-allow-ssh` – allows port 22 (SSH)
@@ -130,7 +130,7 @@ gcloud compute instances create privatenet-vm-1 \
   - `default-allow-rdp` – allows port 3389 (Remote Desktop)
   - `default-allow-icmp` – allows ping (ICMP)
 
-### Steps:
+#### Steps:
 
 1. Connect to `default-vm-1` using the **SSH button**.
 2. Test **internet access** by running:
@@ -141,13 +141,13 @@ gcloud compute instances create privatenet-vm-1 \
 
 3. Delete the default instance and the **entire default network**.
 
-### Why Delete It?
+#### Why Delete It?
 
 The default network allows **too much open access** — not suitable for production environments.
 
 ---
 
-## 🔐 Task 3: Investigate Custom Networks – No Default Access
+### Task 3: Investigate Custom Networks – No Default Access
 
 Custom VPCs don’t have any firewall rules by default, except:
 
@@ -156,7 +156,7 @@ Custom VPCs don’t have any firewall rules by default, except:
 
 So, even if a VM is running, you **cannot connect to it** via SSH or ping **unless you create rules**.
 
-### Example:
+#### Example:
 
 Try SSH from Cloud Shell:
 
@@ -168,13 +168,13 @@ gcloud compute ssh mynet-vm-2 --zone=us-central1-b
 
 ---
 
-## ✅ Task 4: Create Custom Ingress Firewall Rules
+### Task 4: Create Custom Ingress Firewall Rules
 
-### 🎯 Goal:
+#### Goal:
 
 Allow SSH only from **your Cloud Shell IP**.
 
-### Steps:
+#### Steps:
 
 1. Get your Cloud Shell IP:
 
@@ -212,11 +212,11 @@ Allow SSH only from **your Cloud Shell IP**.
 
 ---
 
-## 🔄 Task 5: Ping Between VMs (Internal Communication)
+### Task 5: Ping Between VMs (Internal Communication)
 
 By default, **internal traffic is denied** in custom VPCs. Even though both VMs are in the same network, **ping (ICMP) won’t work**.
 
-### Allow Internal Ping:
+#### Allow Internal Ping:
 
 ```bash
 gcloud compute firewall-rules create mynetwork-ingress-allow-icmp-internal \
@@ -239,14 +239,14 @@ But try pinging the **external IP** of `mynet-vm-2` — it **won’t work**. Tha
 
 ---
 
-## 🧠 Task 6: Using Firewall Rule Priority
+### Task 6: Using Firewall Rule Priority
 
 Google Cloud Firewall rules have a **priority number**:
 
 - **Lower numbers = higher priority**
 - Rules are evaluated in order of priority
 
-### Step 1: Deny ICMP with higher priority
+#### Step 1: Deny ICMP with higher priority
 
 ```bash
 gcloud compute firewall-rules create mynetwork-ingress-deny-icmp-all \
@@ -259,7 +259,7 @@ gcloud compute firewall-rules create mynetwork-ingress-deny-icmp-all \
 
 Now try ping again — ❌ It fails.
 
-### Step 2: Lower the priority of the Deny Rule (Make it weaker):
+#### Step 2: Lower the priority of the Deny Rule (Make it weaker):
 
 ```bash
 gcloud compute firewall-rules update mynetwork-ingress-deny-icmp-all --priority=2000
@@ -269,7 +269,7 @@ Now ping again — ✅ It works.
 
 ---
 
-## ⛔️ Task 7: Configure Egress Firewall Rules
+### Task 7: Configure Egress Firewall Rules
 
 So far, you’ve controlled **incoming traffic**.
 
@@ -290,7 +290,7 @@ Try ping again — ❌ It fails.
 
 ---
 
-## 🏁 Conclusion
+### Conclusion
 
 In this lab, you learned:
 
